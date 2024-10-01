@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        String[] dna = {"ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG"};
+        String[] dna = {"ATGCGA","CATTGC","TTATGT","AGAATG","CCCCTA","TCACTG"};
         for (int i = 0; i < dna.length; i++) {
             String fila = dna[i];
             //System.out.println(validRow(fila, dna.length));
@@ -13,8 +13,8 @@ public class Main {
         //System.out.println(testRows(dna));
         //System.out.println(testColumn(dna));
         //System.out.println(testPrincipalDiagonals(dna));
-//        testSupDiagonal(dna);
-        testAllDiagonals(dna);
+        System.out.println(testSupDiagonal(dna));
+
     }
 
 
@@ -64,13 +64,6 @@ public class Main {
         return false;
     }
 
-    //    String[] dna = {"ATGACA","CAGTGC","TTATGT","AGATGG","CCCCTA","TCACTG"};
-    // A   A   A   T   T   G
-    //0;0 1;1 2;2 3;3 4;4 5;5
-    public static boolean testDiagonal(String[] dna) {
-        return true;
-    }
-
 
     public static boolean testColumn(String[] dna) {
         String[] dnaColumn = new String[dna.length];
@@ -104,71 +97,68 @@ public class Main {
         return testRows(dnaDiagonal);
 
     }
-
     public static boolean testSupDiagonal(String[] dna) {
-        String[] dnaDiagonalSup = new String[dna.length - 4];
+        int n = dna.length;  // Tamaño de la matriz nxn
+        int count = 0;  // Contador para saber cuántas diagonales cumplen la condición
+
+        // Primera pasada para contar cuántas diagonales tienen longitud >= 4
+        for (int i = 0; i < n - 1; i++) {
+            String diagonal = "";
+            for (int j = 0; j < n - i - 1; j++) {
+                diagonal = diagonal.concat(dna[j].substring(j + i + 1, j + i + 2));
+            }
+            if (diagonal.length() >= 4) {
+                count++;  // Contamos las diagonales que cumplen la condición
+            }
+        }
+
+        // Creamos el array de diagonales con el tamaño exacto
+        String[] dnaDiagonalSup = new String[count];
+        int index = 0;  // Índice para almacenar en el array
+
+        // Segunda pasada para llenar el array con las diagonales que cumplen la condición
+        for (int i = 0; i < n - 1; i++) {
+            String diagonal = "";
+            for (int j = 0; j < n - i - 1; j++) {
+                diagonal = diagonal.concat(dna[j].substring(j + i + 1, j + i + 2));
+            }
+            if (diagonal.length() >= 4) {
+                dnaDiagonalSup[index] = diagonal;  // Almacenamos la diagonal
+                index++;
+            }
+        }
+
+        // Imprimir los resultados
         for (int i = 0; i < dnaDiagonalSup.length; i++) {
-            dnaDiagonalSup[i] = "";
-            int num = 1;
-            //String[] dna = {"ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG"};
-            for (int k = 0; k < dna[i].length()-1; k++) {
-                if(i==0){
-                    dnaDiagonalSup[0] = dnaDiagonalSup[0].concat(dna[i].substring(k + 1, k + 2));
-                }else if(i==1){
-                    dnaDiagonalSup[1] = dnaDiagonalSup[1].concat(dna[i].substring(k + 1, k + 2));
-                }
-
-
-            }
-
+            System.out.println("Diagonal " + (i + 1) + ": " + dnaDiagonalSup[i]);
         }
-        System.out.println(dnaDiagonalSup[0]);
-        System.out.println(dnaDiagonalSup[1]);
 
-
-
-        return true;
+        return testRows(dnaDiagonalSup);
     }
 
-    public static boolean testAllDiagonals(String[] dna) {
-        int n = dna.length;
+//    public static boolean testSupDiagonal(String[] dna) {
+//        String[] dnaDiagonalSup = new String[dna.length - 4];
+//        for (int i = 0; i < dnaDiagonalSup.length; i++) {
+//            dnaDiagonalSup[i] = "";
+//            int num = 1;
+//            //String[] dna = {"ATGCGA","CAGTGC","TTATGT","AGAAGG","CCCCTA","TCACTG"};
+//            for (int j = 0; j < dna[i].length()-1; j++) {
+//                if(i==0){
+//                    dnaDiagonalSup[0] = dnaDiagonalSup[0].concat(dna[j].substring(j + 1, j + 2));
+//                }else if(i==1 && dnaDiagonalSup[1].length()<4){
+//                    dnaDiagonalSup[1] = dnaDiagonalSup[1].concat(dna[j].substring(j + 2, j + 3));
+//                }
+//
+//
+//            }
+//
+//        }
+//        System.out.println(dnaDiagonalSup[0]);
+//        System.out.println(dnaDiagonalSup[1]);
+//
+//
+//
+//        return true;
+//    }
 
-        // Diagonales superiores
-        for (int i = 0; i < n - 3; i++) {
-            if (checkDiagonal(dna, 0, i, 1, 1)) return true;
-            if (checkDiagonal(dna, i, 0, 1, 1)) return true;
-        }
-
-        // Diagonales inferiores
-        for (int i = 0; i < n - 3; i++) {
-            if (checkDiagonal(dna, 0, i, 1, -1)) return true;
-            if (checkDiagonal(dna, n - 1, i, -1, 1)) return true;
-        }
-
-        return false;
-    }
-
-    private static boolean checkDiagonal(String[] dna, int startRow, int startCol, int rowStep, int colStep) {
-        int n = dna.length;
-        int count = 1;
-        char prev = dna[startRow].charAt(startCol);
-
-        for (int i = 1; i < n; i++) {
-            int row = startRow + i * rowStep;
-            int col = startCol + i * colStep;
-
-            if (row < 0 || row >= n || col < 0 || col >= n) break;
-
-            char current = dna[row].charAt(col);
-            if (current == prev) {
-                count++;
-                if (count == 4) return true;
-            } else {
-                count = 1;
-            }
-            prev = current;
-        }
-
-        return false;
-    }
 }
