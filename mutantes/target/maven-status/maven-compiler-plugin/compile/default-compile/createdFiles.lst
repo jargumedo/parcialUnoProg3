@@ -1,0 +1,9 @@
+com\example\mutantes\dto\DnaDto.class
+com\example\mutantes\entidades\Dna.class
+com\example\mutantes\servicios\DnaServiceImpl.class
+com\example\mutantes\controladores\DnaController.class
+com\example\mutantes\entidades\Stats.class
+com\example\mutantes\servicios\DnaService.class
+com\example\mutantes\MutantesApplication.class
+com\example\mutantes\repositorios\DnaRepository.class
+com\example\mutantes\repositorios\StatsRepository.class
