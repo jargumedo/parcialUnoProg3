@@ -1,13 +1,13 @@
 ```
 
-## Como funciona el programa? 
+¿Como funciona el programa?
 La API recibe un array de strings como parámetro, donde cada elemento representa una fila de una matriz NxN que contiene una secuencia de ADN. Los caracteres permitidos en los strings son exclusivamente A, T, C y G, que corresponden a las bases nitrogenadas del ADN.
 
 Para determinar si una persona es mutante, la secuencia de ADN debe contener más de una serie de cuatro letras idénticas consecutivas, ya sea en dirección horizontal, vertical o diagonal.
 
 El usuario debe enviar la secuencia de ADN en formato JSON, asegurándose de que forme una matriz NxN válida.
 
-###### Asi se veria una request de un DNA mutante
+Asi se veria una request de un DNA mutante:
 ```json
 {
   "dna": [
